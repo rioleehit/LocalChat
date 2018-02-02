@@ -44,13 +44,13 @@ class ChatItem{
 	constructor(ct){
 		this.tm = Date.now();
 		var file = path.normalize(ct.trim());
-		//console.log(file);
+		//console.log("--");
 		if(file == "\n" ||
 		   file == "." ||
 		   file+"\\" == path.normalize(root_path) ||
 		   file =="\\" ||
 		   !fs.existsSync(file)){		
-			this.content = ct;
+			this.content = ct.trim()//.SubString(0,ct.length>1?ct.length-1:ct.length);
 			this.type="str";
 			return;
 		}
@@ -107,7 +107,7 @@ function msg(str){
 
 process.stdin.setEncoding("utf8");
 process.stdin.on('readable',()=>{
-	const chunk = process.stdin.readLine();
+	const chunk = process.stdin.read();
 	if(chunk!=null){
 		msg(chunk);
 	}
