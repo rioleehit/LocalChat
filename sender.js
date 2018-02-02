@@ -45,13 +45,25 @@ class ChatItem{
 		this.tm = Date.now();
 		var file = path.normalize(ct.trim());
 		//console.log(file);
-		if(!fs.existsSync(file)){			
+		if(file == "\n" ||
+		   file == "." ||
+		   file+"\\" == path.normalize(root_path) ||
+		   file =="\\" ||
+		   !fs.existsSync(file)){		
 			this.content = ct;
 			this.type="str";
 			return;
 		}
+		//if(file == path.normalize()){}
 		this.source = file;
 		this.content = path.basename(file);
+		/*console.log(file);
+		console.log(root_path);
+		console.log(path.normalize(root_path));
+		console.log(file == root_path);
+		console.log(file == path.normalize(root_path));
+		console.log("*******************************************");
+		return;*/
 		var st = fs.statSync(file);
 		this.type=st.isDirectory() ? "dir" : "file";
 		if(this.type=="dir"){
@@ -95,7 +107,7 @@ function msg(str){
 
 process.stdin.setEncoding("utf8");
 process.stdin.on('readable',()=>{
-	const chunk = process.stdin.read();
+	const chunk = process.stdin.readLine();
 	if(chunk!=null){
 		msg(chunk);
 	}

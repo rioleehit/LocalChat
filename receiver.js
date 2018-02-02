@@ -9,7 +9,7 @@ if(!fs.existsSync(root_path)){
 	fs.mkdirSync(root_path);
 	console.log("mkdir "+root_path);
 }*/
-
+var _last={tm:0}
 fs.watch(root_path,function(evt, filename){
 	if(filename != "chat.json"){return;}
 	//console.log('event is '+ evt);
@@ -19,6 +19,8 @@ fs.watch(root_path,function(evt, filename){
 	var chatData = JSON.parse(data.toString());
 	
 	var last = chatData[chatData.length-1];
+	if(last.tm <=_last.tm){return;}
+	_last = last;
 	//console.log(root_path);
 	//console.log(last.content);
 	if(last.type == "str"){console.log(last.content);}
